@@ -18,7 +18,8 @@ To enable these as commands in MacOS:
 6. Select all existing boilerplate code and paste in the script you want to use
 7. File menu, Save
 8. Type in the name you want to be displayed under every Application Services menu
-9. Set a keyboard shortcut using Application Services menu item `Services Settings...`
+9. Save `com.user.caffeinate.plist` to `~/Library/LaunchAgents/com.user.caffeinate.plist`
+10. Set a keyboard shortcut using Application Services menu item `Services Settings...`
 
 
 Credit to https://macmost.com/saving-and-recalling-window-positions-with-automator.html for the head start with this.  This code differs in that it also matches the window name (for multiple chrome windows for example).  It's also less user friendly in that it doesn't prompt for filename to save/read from, etc.  Use at your own risk.
