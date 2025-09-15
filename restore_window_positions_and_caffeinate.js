@@ -34,4 +34,6 @@ for (app in app_list) {
   }
 }
 
-Application('KeepingYouAwake.app').activate();
+// Launch caffeinate
+var plist = home_dir + '/Library/LaunchAgents/com.user.caffeinate.plist';
+app.doShellScript('/bin/launchctl load ' + plist);

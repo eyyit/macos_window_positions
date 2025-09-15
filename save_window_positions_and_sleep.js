@@ -33,8 +33,9 @@ app.setEof(file, { to: 0 });
 app.write(JSON.stringify(saved_positions), {to: file});
 app.closeAccess(file);
 
-// Kill KeepingYouAwake
-Application('KeepingYouAwake').quit();
+// Kill caffeinate
+var plist = home_dir + '/Library/LaunchAgents/com.user.caffeinate.plist';
+app.doShellScript('/bin/launchctl unload ' + plist);
 
 // Sleep the computer
 Application("System Events").sleep();
