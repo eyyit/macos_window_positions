@@ -1,3 +1,4 @@
+// Default filepath for all scripts.
 var home_dir = ObjC.unwrap($.NSHomeDirectory()).toString();
 var filename = home_dir + '/.saved_window_positions';
 
@@ -7,31 +8,25 @@ app.includeStandardAdditions = true;
 // get saved positions from file
 var saved_positions = JSON.parse(app.read(Path(filename)));
 
-var sys_events = Application('System Events');
-var app_list = sys_events.applicationProcesses.whose({
-  visible: true
-}).name();
+var app_list = Application("System Events").applicationProcesses.whose({visible: true}).name();
 
 // Loop through currently visible applications
-for (var i = 0; i < app_list.length; i++) {
-  var app_name = app_list[i];
-
+for (app in app_list) {
+  var app_name = app_list[app];
   // If the current app has no saved data, skip it
-  if (!(app_name in saved_positions)) {
+  if (! app_name in saved_positions) {
     continue;
   }
-  
   var saved_windows = saved_positions[app_name];
-  var target_app = Application(app_name);
-  var app_windows = target_app.windows;
+  var app_windows = Application(app_name).windows;
 
   // Loop through saved windows and apply bounds to anything that matches.
-  for (var j = 0; j < app_windows.length; j++) {
-    // Some windows lack a .name() function or throw an error
+  for (app_window in app_windows) {
+    // Some windows don't have a .name() function (meaning they don't support applescript
     try {
-      var app_window_name = app_windows[j].name();
+      app_window_name = app_windows[app_window].name()
       if (app_window_name in saved_windows) {
-        target_app.windows[j].bounds = saved_windows[app_window_name];
+        Application(app_name).windows[app_window].bounds = saved_windows[app_window_name];
       }
     } catch (e) {
       continue;
@@ -41,8 +36,4 @@ for (var i = 0; i < app_list.length; i++) {
 
 // Launch caffeinate
 var plist = home_dir + '/Library/LaunchAgents/com.user.caffeinate.plist';
-try {
-  app.doShellScript('/bin/launchctl load ' + plist);
-} catch (e) {
-  // Silently continue if launchctl fails
-}
+app.doShellScript('/bin/launchctl load ' + plist);
