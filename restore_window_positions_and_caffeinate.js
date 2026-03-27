@@ -2,8 +2,8 @@
 var home_dir = ObjC.unwrap($.NSHomeDirectory()).toString();
 var filename = home_dir + '/.saved_window_positions';
 
-var app = Application.currentApplication();
-app.includeStandardAdditions = true;
+var current_app = Application.currentApplication();
+current_app.includeStandardAdditions = true;
 
 // get saved positions from file
 var saved_positions = JSON.parse(app.read(Path(filename)));
@@ -36,4 +36,4 @@ for (app in app_list) {
 
 // Launch caffeinate
 var plist = home_dir + '/Library/LaunchAgents/com.user.caffeinate.plist';
-app.doShellScript('/bin/launchctl load ' + plist);
+current_app.doShellScript('/bin/launchctl load ' + plist);
