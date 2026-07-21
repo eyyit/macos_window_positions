@@ -11,10 +11,9 @@ var saved_positions = JSON.parse(app.read(Path(filename)));
 var app_list = Application("System Events").applicationProcesses.whose({visible: true}).name();
 
 // Loop through currently visible applications
-for (app in app_list) {
-  var app_name = app_list[app];
+for (var app_name of app_list) {
   // If the current app has no saved data, skip it
-  if (! app_name in saved_positions) {
+  if (!(app_name in saved_positions)) {
     continue;
   }
   var saved_windows = saved_positions[app_name];
